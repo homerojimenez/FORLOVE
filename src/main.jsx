@@ -99,17 +99,22 @@ function HeroSection() {
             trigger: heroRef.current,
             start: 0,
             end: () => window.innerHeight * 1.7,
-            scrub: 1.1,
+            scrub: 1.8,
             pin: true,
             anticipatePin: 1,
             onUpdate: (self) => {
               if (!scrollCueReady) return;
 
-              const cueVisible = self.progress < 0.015;
+              const cueVisible = self.progress < 0.02;
               gsap.to('.heroScrollCue', {
                 autoAlpha: cueVisible ? 1 : 0,
-                y: cueVisible ? 0 : 28,
-                duration: 0.18,
+                y: cueVisible ? 0 : 22,
+                scale: cueVisible ? 1 : 0.88,
+                filter: cueVisible
+                  ? 'drop-shadow(0 0 16px rgba(8,6,4,0.72)) drop-shadow(0 0 18px rgba(201,138,72,0.28)) blur(0px)'
+                  : 'drop-shadow(0 0 16px rgba(8,6,4,0.72)) drop-shadow(0 0 18px rgba(201,138,72,0.28)) blur(6px)',
+                duration: cueVisible ? 0.5 : 0.35,
+                ease: 'power2.out',
                 overwrite: 'auto',
               });
             },
@@ -117,19 +122,19 @@ function HeroSection() {
         });
 
         scrollTl
-          .to(copyRef.current, { xPercent: -10, autoAlpha: 0.04, filter: 'blur(2px)' }, 0)
-          .to(posterRef.current, { scale: 1.1, xPercent: -2.2, yPercent: -1.2 }, 0)
-          .to(figuresRef.current, { scale: 1.18, xPercent: -3.6, yPercent: 1.4, autoAlpha: 0.86 }, 0)
-          .to('.heroLightBloom', { xPercent: 26, yPercent: -8, scale: 1.25, autoAlpha: 0.18 }, 0)
-          .to('.heroEdgeDissolve', { autoAlpha: 0.92, scale: 1.1 }, 0.08)
-          .to('.watercolorTransition__bloom--one', { autoAlpha: 1, scale: 6.5, xPercent: 18, yPercent: -7, rotate: 18 }, 0.18)
-          .to('.watercolorTransition__bloom--two', { autoAlpha: 0.96, scale: 6.05, xPercent: -12, yPercent: 11, rotate: -28 }, 0.26)
-          .to('.watercolorTransition__bloom--three', { autoAlpha: 0.9, scale: 5.7, xPercent: 22, yPercent: 20, rotate: 33 }, 0.34)
-          .to('.watercolorTransition__paper', { autoAlpha: 1 }, 0.48)
-          .to('.watercolorTransition__grain', { autoAlpha: 0.68 }, 0.54)
-          .to(posterRef.current, { autoAlpha: 0.02 }, 0.58)
-          .to(figuresRef.current, { autoAlpha: 0.02 }, 0.58)
-          .to('.heroWarmOverlay, .heroEdgeDissolve, .heroLightBloom', { autoAlpha: 0 }, 0.64);
+          .to(copyRef.current, { xPercent: -10, autoAlpha: 0.04, filter: 'blur(4px)', ease: 'power2.in' }, 0)
+          .to(posterRef.current, { scale: 1.12, xPercent: -2.2, yPercent: -1.6 }, 0)
+          .to(figuresRef.current, { scale: 1.2, xPercent: -4, yPercent: 1.8, autoAlpha: 0.82 }, 0)
+          .to('.heroLightBloom', { xPercent: 28, yPercent: -10, scale: 1.28, autoAlpha: 0.14 }, 0)
+          .to('.heroEdgeDissolve', { autoAlpha: 0.92, scale: 1.12, ease: 'power1.in' }, 0.06)
+          .to('.watercolorTransition__bloom--one', { autoAlpha: 1, scale: 6.8, xPercent: 18, yPercent: -7, rotate: 18, ease: 'power1.inOut' }, 0.14)
+          .to('.watercolorTransition__bloom--two', { autoAlpha: 0.96, scale: 6.3, xPercent: -12, yPercent: 11, rotate: -28, ease: 'power1.inOut' }, 0.18)
+          .to('.watercolorTransition__bloom--three', { autoAlpha: 0.9, scale: 5.9, xPercent: 22, yPercent: 20, rotate: 33, ease: 'power1.inOut' }, 0.24)
+          .to('.watercolorTransition__paper', { autoAlpha: 1, ease: 'power2.in' }, 0.42)
+          .to('.watercolorTransition__grain', { autoAlpha: 0.68 }, 0.48)
+          .to(posterRef.current, { autoAlpha: 0.02, ease: 'power2.in' }, 0.52)
+          .to(figuresRef.current, { autoAlpha: 0.02, ease: 'power2.in' }, 0.52)
+          .to('.heroWarmOverlay, .heroEdgeDissolve, .heroLightBloom', { autoAlpha: 0, ease: 'power2.in' }, 0.58);
 
         ScrollTrigger.refresh();
         heroScrollReady = true;
@@ -164,37 +169,40 @@ function HeroSection() {
 
       intro = gsap.timeline({ defaults: { ease: 'power3.out' } });
       intro
-        .to('.heroCurtain', { autoAlpha: 0, duration: 0.55, ease: 'power2.inOut' })
-        .to(posterRef.current, { autoAlpha: 1, scale: 1.025, xPercent: 0, duration: 0.95, ease: 'sine.out' }, 0.01)
-        .to(figuresRef.current, { autoAlpha: 0.68, scale: 1.035, xPercent: 0, yPercent: 0, duration: 1.05, ease: 'sine.out' }, 0.06)
-        .to('.heroLightBloom', { autoAlpha: 0.78, xPercent: 10, scale: 1.08, duration: 0.78, ease: 'sine.out' }, 0.08)
-        .to('.heroLightBloom', { autoAlpha: 0.32, duration: 0.7, ease: 'sine.inOut' }, 0.78)
-        .to('.introReveal--premiereEs', { autoAlpha: 1, y: 0, scale: 1, filter: 'blur(0px)', duration: 0.42 }, 0.22)
+        .to('.heroCurtain', { autoAlpha: 0, duration: 0.7, ease: 'power2.inOut' })
+        .to(posterRef.current, { autoAlpha: 1, scale: 1.025, xPercent: 0, duration: 1.1, ease: 'power2.out' }, 0.01)
+        .to(figuresRef.current, { autoAlpha: 0.68, scale: 1.035, xPercent: 0, yPercent: 0, duration: 1.2, ease: 'power2.out' }, 0.08)
+        .to('.heroLightBloom', { autoAlpha: 0.78, xPercent: 10, scale: 1.08, duration: 0.9, ease: 'sine.out' }, 0.1)
+        .to('.heroLightBloom', { autoAlpha: 0.32, duration: 0.8, ease: 'sine.inOut' }, 0.9)
+        .to('.introReveal--premiereEs', { autoAlpha: 1, y: 0, scale: 1, filter: 'blur(0px)', duration: 0.55, ease: 'power2.out' }, 0.28)
         .to('.introReveal--premiereEn', {
           autoAlpha: 1,
           y: 0,
           scale: 1,
           filter: 'blur(0px)',
           letterSpacing: '0.47em',
-          duration: 0.38,
-        }, 0.4)
-        .to('.introReveal--statement', { autoAlpha: 1, y: 0, scale: 1, filter: 'blur(0px)', duration: 0.46 }, 0.58)
+          duration: 0.5,
+          ease: 'power2.out',
+        }, 0.48)
+        .to('.introReveal--statement', { autoAlpha: 1, y: 0, scale: 1, filter: 'blur(0px)', duration: 0.6, ease: 'power2.out' }, 0.62)
         .to('.forloveLogo', {
           autoAlpha: 1,
           y: 0,
           scale: 1,
           filter: 'drop-shadow(0 16px 32px rgba(58, 31, 18, 0.22)) blur(0px)',
-          duration: 0.52,
-        }, 0.84)
-        .to('.heroScrollCue', { autoAlpha: 1, y: 0, scale: 1, duration: 0.42, ease: 'sine.out' }, 1.28)
+          duration: 0.65,
+          ease: 'power2.out',
+        }, 0.88)
         .to('.introReveal--tagline, .introReveal--keywords, .introReveal--soon, .introReveal--miss', {
           autoAlpha: 1,
           y: 0,
           scale: 1,
           filter: 'blur(0px)',
-          duration: 0.36,
-          stagger: 0.05,
-        }, 0.98)
+          duration: 0.45,
+          stagger: 0.08,
+          ease: 'power2.out',
+        }, 1.02)
+        .to('.heroScrollCue', { autoAlpha: 1, y: 0, scale: 1, duration: 0.55, ease: 'power2.out' }, 1.4)
         .call(() => {
           introComplete = true;
           window.clearTimeout(introFallback);
@@ -299,8 +307,8 @@ function SectionTwoExperience() {
     let handleResize;
     let handlePointerMove;
     let handlePointerLeave;
-    let intervalId;
     let frameId = 0;
+    let sectionObserver;
 
     const ctx = gsap.context(() => {
       const q = gsap.utils.selector(sceneRef);
@@ -314,8 +322,9 @@ function SectionTwoExperience() {
       const veins = q('.sectionTwoWatercolor__vein');
       const clamp01 = gsap.utils.clamp(0, 1);
       const lerp = gsap.utils.interpolate;
-      const easeOut = gsap.parseEase('power3.out');
+      const easeOut = gsap.parseEase('power2.out');
       const easeInOut = gsap.parseEase('sine.inOut');
+      const easeOutSoft = gsap.parseEase('power1.out');
 
       gsap.set(moments, {
         autoAlpha: 0,
@@ -356,9 +365,9 @@ function SectionTwoExperience() {
         { element: q('.sectionTwoWatercolor__wash--rose'), scale: [1, 1.56], x: [0, -5], y: [0, -2], rotate: [0, 11], opacity: [0.24, 0.46] },
       ];
       const momentConfigs = [
-        { start: 0.04, inEnd: 0.16, holdEnd: 0.31, end: 0.4, entryY: 44, entryScale: 0.9, exitY: -52, exitScale: 1.18, exitBlur: 16 },
-        { start: 0.33, inEnd: 0.45, holdEnd: 0.59, end: 0.69, entryY: 44, entryScale: 0.9, exitY: -62, exitScale: 1.21, exitBlur: 18 },
-        { start: 0.61, inEnd: 0.74, holdEnd: 0.82, end: 0.88, entryY: 52, entryScale: 0.88, exitY: -76, exitScale: 1.28, exitBlur: 22 },
+        { start: 0.03, inEnd: 0.14, holdEnd: 0.30, end: 0.40, entryY: 48, entryScale: 0.92, exitY: -48, exitScale: 1.14, exitBlur: 14 },
+        { start: 0.32, inEnd: 0.43, holdEnd: 0.58, end: 0.68, entryY: 48, entryScale: 0.92, exitY: -56, exitScale: 1.16, exitBlur: 16 },
+        { start: 0.60, inEnd: 0.72, holdEnd: 0.81, end: 0.88, entryY: 52, entryScale: 0.90, exitY: -64, exitScale: 1.20, exitBlur: 18 },
       ];
       const bridgeMotion = [
         { x: -14, y: -10, scale: 1.08 },
@@ -372,40 +381,44 @@ function SectionTwoExperience() {
         let opacity = 0;
         let y = config.entryY;
         let scale = config.entryScale;
-        let blur = 20;
-        let innerY = 12;
-        let innerScale = 0.985;
+        let blur = 18;
+        let innerY = 14;
+        let innerScale = 0.98;
+        let rotate = 0;
 
         if (progress >= config.start && progress < config.inEnd) {
           const t = easeOut(clamp01((progress - config.start) / (config.inEnd - config.start)));
           opacity = t;
           y = lerp(config.entryY, 0, t);
           scale = lerp(config.entryScale, 1, t);
-          blur = lerp(20, 0, t);
-          innerY = lerp(12, 0, t);
-          innerScale = lerp(0.985, 1, t);
+          blur = lerp(18, 0, t);
+          innerY = lerp(14, 0, t);
+          innerScale = lerp(0.98, 1, t);
+          rotate = lerp(0.6, 0, t);
         } else if (progress >= config.inEnd && progress < config.holdEnd) {
           const t = easeInOut(clamp01((progress - config.inEnd) / (config.holdEnd - config.inEnd)));
           opacity = 1;
-          y = lerp(0, -4, t);
-          scale = lerp(1, 1.018, t);
+          y = lerp(0, -6, t);
+          scale = lerp(1, 1.014, t);
           blur = 0;
           innerY = 0;
           innerScale = 1;
+          rotate = 0;
         } else if (progress >= config.holdEnd && progress < config.end) {
           const t = easeInOut(clamp01((progress - config.holdEnd) / (config.end - config.holdEnd)));
-          opacity = 1 - t;
-          y = lerp(-4, config.exitY, t);
-          scale = lerp(1.018, config.exitScale, t);
+          opacity = lerp(1, 0, t * t);
+          y = lerp(-6, config.exitY, t);
+          scale = lerp(1.014, config.exitScale, t);
           blur = lerp(0, config.exitBlur, t);
-          innerY = lerp(0, -18, t);
-          innerScale = lerp(1, 1.015, t);
+          innerY = lerp(0, -14, t);
+          innerScale = lerp(1, 1.01, t);
+          rotate = lerp(0, -0.4, t);
         } else if (progress >= config.end) {
           y = config.exitY;
           scale = config.exitScale;
           blur = config.exitBlur;
-          innerY = -18;
-          innerScale = 1.015;
+          innerY = -14;
+          innerScale = 1.01;
         }
 
         gsap.set(moment, {
@@ -413,6 +426,7 @@ function SectionTwoExperience() {
           y,
           scale,
           filter: `blur(${blur}px)`,
+          rotate,
         });
         gsap.set(inner, {
           y: innerY,
@@ -421,12 +435,12 @@ function SectionTwoExperience() {
       };
 
       const renderBridge = (progress) => {
-        const inT = easeOut(clamp01((progress - 0.82) / 0.04));
-        const outT = easeInOut(clamp01((progress - 0.9) / 0.045));
-        const opacity = Math.max(0, 0.28 * inT * (1 - outT));
-        const blur = lerp(16, 0, inT) + lerp(0, 16, outT);
-        const y = lerp(34, 0, inT);
-        const drift = easeInOut(clamp01((progress - 0.84) / 0.08));
+        const inT = easeOutSoft(clamp01((progress - 0.79) / 0.06));
+        const outT = easeInOut(clamp01((progress - 0.92) / 0.05));
+        const opacity = Math.max(0, 0.32 * inT * (1 - outT));
+        const blur = lerp(14, 0, inT) + lerp(0, 14, outT);
+        const y = lerp(28, 0, inT);
+        const drift = easeInOut(clamp01((progress - 0.81) / 0.1));
 
         bridgeWords.forEach((word, index) => {
           const motion = bridgeMotion[index];
@@ -442,17 +456,18 @@ function SectionTwoExperience() {
       };
 
       const renderFinalLogo = (progress) => {
-        const logoIn = easeOut(clamp01((progress - 0.86) / 0.07));
-        const fillIn = easeInOut(clamp01((progress - 0.895) / 0.08));
+        const logoIn = easeOut(clamp01((progress - 0.84) / 0.08));
+        const fillIn = easeInOut(clamp01((progress - 0.88) / 0.09));
         const logoOut = easeInOut(clamp01((progress - 0.992) / 0.008));
         const opacity = Math.max(0, logoIn * (1 - logoOut));
         const centerInset = 50 - (fillIn * 50);
+        const breathe = Math.sin(Date.now() * 0.001) * 0.008 * fillIn;
 
         gsap.set(finalLogo, {
           autoAlpha: opacity < 0.01 ? 0 : opacity,
-          y: lerp(36, -4, logoIn) - (18 * logoOut),
-          scale: lerp(0.84, 1.06, logoIn) + (0.06 * fillIn),
-          filter: `blur(${lerp(18, 0, logoIn) + lerp(0, 12, logoOut)}px)`,
+          y: lerp(32, -4, logoIn) - (14 * logoOut),
+          scale: lerp(0.86, 1.04, logoIn) + (0.05 * fillIn) + breathe,
+          filter: `blur(${lerp(16, 0, logoIn) + lerp(0, 10, logoOut)}px)`,
         });
         gsap.set(finalLogoOutline, {
           autoAlpha: Math.max(0, opacity * (1 - (fillIn * 0.28))),
@@ -467,10 +482,20 @@ function SectionTwoExperience() {
         });
       };
 
+      let sectionVisible = true;
+      sectionObserver = new IntersectionObserver(
+        ([entry]) => {
+          sectionVisible = entry.isIntersecting;
+          if (sectionVisible) requestUpdate();
+        },
+        { rootMargin: '100px 0px' },
+      );
+      if (sceneRef.current) sectionObserver.observe(sceneRef.current);
+
       const update = () => {
         frameId = 0;
 
-        if (!sceneRef.current) return;
+        if (!sceneRef.current || !sectionVisible) return;
 
         const rect = sceneRef.current.getBoundingClientRect();
         const range = Math.max(1, rect.height - window.innerHeight);
@@ -518,7 +543,6 @@ function SectionTwoExperience() {
         window.setTimeout(requestUpdate, 120);
       };
 
-      intervalId = window.setInterval(update, 32);
       update();
 
       handlePointerMove = (event) => {
@@ -528,19 +552,20 @@ function SectionTwoExperience() {
         const y = (event.clientY / window.innerHeight) - 0.5;
 
         gsap.to(logoTiltRef.current, {
-          x: x * 18,
-          y: y * 12,
-          rotateY: x * 8,
-          rotateX: y * -7,
-          duration: 0.55,
-          ease: 'power3.out',
+          x: x * 22,
+          y: y * 14,
+          rotateY: x * 10,
+          rotateX: y * -8,
+          duration: 0.7,
+          ease: 'power2.out',
           overwrite: 'auto',
         });
         gsap.to(q('.sectionTwoFinalLogo__aura'), {
-          xPercent: x * 10,
-          yPercent: y * 8,
-          duration: 0.65,
-          ease: 'power3.out',
+          xPercent: x * 14,
+          yPercent: y * 10,
+          scale: 1 + Math.abs(x) * 0.06,
+          duration: 0.85,
+          ease: 'power2.out',
           overwrite: 'auto',
         });
       };
@@ -553,14 +578,15 @@ function SectionTwoExperience() {
           y: 0,
           rotateY: 0,
           rotateX: 0,
-          duration: 0.9,
-          ease: 'power3.out',
+          duration: 1.2,
+          ease: 'elastic.out(1, 0.75)',
           overwrite: 'auto',
         });
         gsap.to(q('.sectionTwoFinalLogo__aura'), {
           xPercent: 0,
           yPercent: 0,
-          duration: 0.9,
+          scale: 1,
+          duration: 1.2,
           ease: 'power3.out',
           overwrite: 'auto',
         });
@@ -600,9 +626,7 @@ function SectionTwoExperience() {
       if (frameId) {
         window.cancelAnimationFrame(frameId);
       }
-      if (intervalId) {
-        window.clearInterval(intervalId);
-      }
+      if (sectionObserver) sectionObserver.disconnect();
       ctx.revert();
     };
   }, []);
@@ -639,8 +663,24 @@ function SectionTwoExperience() {
 }
 
 function SectionThreePlaceholder() {
+  const sectionRef = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      },
+      { threshold: 0.3 },
+    );
+    if (sectionRef.current) observer.observe(sectionRef.current);
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <section className="sectionThreePlaceholder" aria-label="Sección 3 pendiente">
+    <section className="sectionThreePlaceholder" ref={sectionRef} aria-label="Sección 3 pendiente">
       <p>Sección 3 — pendiente de conceptualización</p>
     </section>
   );
